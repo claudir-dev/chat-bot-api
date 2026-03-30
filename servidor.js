@@ -1,29 +1,40 @@
 import express from 'express'
 import cors from 'cors'
-import { GoogleGenerativeAI } from '@google/generative-ai' // Certifique-se que instalou este!
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import dotenv from 'dotenv'
-import { error } from 'console'
 
 dotenv.config()
 
 const app = express()
-app.use(cors(
-    origin: 
-))
+app.use(cors())
 app.use(express.json())
 
-const apiKey = process.env.Google_api; 
+const apiKey = process.env.GOOGLE_API_KEY; 
 
-if (!apiKey) {
-    console.error("❌ ERRO: Chave 'Google_api' não encontrada no .env");
-}
 
-const genAI = new GoogleGenerativeAI(apiKey)
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+
+app.get('/', (req,res) => {
+    res.send('API ok')
+})
+
 
 app.post('/api/google', async (req, res) => {
     const { texto } = req.body
-    console.log(texto)
+
+
+
+    if(!texto) {
+        return res.status(400).json({error: 'Texto é obrigatório'})
+    }
+
     try {
+
+        if (!apiKey) {
+            console.log("❌ ERRO: Chave 'Google_api' não encontrada no .env");
+            return res.status(400).json({error: 'Chave Google_api não encontrada no .env'})
+        }
+
         if (!texto) {
             return res.status(400).json({ error: "Texto é obrigatório" })
         }
@@ -51,7 +62,7 @@ app.post('/api/google', async (req, res) => {
     }
 })
 
-let port = 3002
+const port = process.env.PORT || 3002
 app.listen(port, () => {
-    console.log('Servidor rodando em http://localhost:' + port)
-})
+   console.log(`Servidor rodando na porta ${port}`);
+})   

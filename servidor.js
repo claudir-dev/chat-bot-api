@@ -38,7 +38,7 @@ app.post('/api/google', async (req, res) => {
         if (!texto) {
             return res.status(400).json({ error: "Texto é obrigatório" })
         }
-
+        
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" })
 
         if (!model) {

@@ -49,8 +49,6 @@ app.post('/api/google', async (req, res) => {
         const response = await result.response
         const text = response.text()
 
-        console.log(text)
-
         return res.json({ text })
 
     } catch (error) {

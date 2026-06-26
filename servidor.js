@@ -5,9 +5,29 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+const allewdOrigins = [
+    "https://claudir-dev.vercel.app/",
+    "http://localhost:3000/"
+]
+
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(cors({
+    origin(origin, callback) {
+        if (!origin || allewdOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error("Origem não autorizada."))
+        }
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization"
+    ],
+    credentials: true
+}))
 
 const apiKey = process.env.GOOGLE_API_KEY; 
 

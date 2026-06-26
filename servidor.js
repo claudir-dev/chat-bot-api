@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const allewdOrigins = [
-    "https://claudir-dev.vercel.app/",
+    "https://claudir-dev.vercel.app",
     "http://localhost:3000/"
 ]
 

@@ -11,7 +11,6 @@ const allewdOrigins = [
 ]
 
 const app = express()
-app.use(cors())
 app.use(express.json())
 app.use(cors({
     origin(origin, callback) {
@@ -30,6 +29,7 @@ app.use(cors({
 }))
 
 const apiKey = process.env.GOOGLE_API_KEY; 
+console.log(apiKey)
 
 
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
